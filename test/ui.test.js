@@ -8,9 +8,16 @@ test('Verrifi "All Books" is visible', async ({ page }) => {
     const isAllBookLinkVisible = await allBooksLink.isVisible();
     expect(isAllBookLinkVisible).toBe(true);})
 
-    test('Verrifi Login button is visible', async ({ page }) => {
-        await page.goto(pageUrl);
-        await page.waitForSelector('nav.navbar');
-        const liginButton = await page.$('a[href="/login"]');
-        const isLoginButtonVisible = await liginButton.isVisible();
-        expect(isLoginButtonVisible).toBe(true);})
+test('Verrifi Login button is visible', async ({ page }) => {
+    await page.goto(pageUrl);
+    await page.waitForSelector('nav.navbar');
+    const loginButton = await page.$('a[href="/login"]');
+    const isLoginButtonVisible = await loginButton.isVisible();
+    expect(isLoginButtonVisible).toBe(true);})
+
+test('Verrifi Register button is visible', async ({ page }) => {
+    await page.goto(pageUrl);
+    await page.waitForSelector('nav.navbar');
+    const registerButton = await page.$('a[href="/register"]');
+    const isRegisterButtonVisible = await registerButton.isVisible();
+    expect(isRegisterButtonVisible).toBe(true);})
