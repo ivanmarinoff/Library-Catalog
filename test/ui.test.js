@@ -54,6 +54,19 @@ test('Login with empty credentials', async ({ page }) => {
         expect(page.url()).toBe('http://localhost:3000/login');
 });
 
+test('Register with empty credentials', async ({ page }) => {
+    await page.goto('http://localhost:3000/register'); 
+    await page.click('input[type="submit"]');
+
+    page.on('dialog', async dialog => {
+        expect(dialog.type()).toContain('alert');
+        expect(dialog.message()).toContain('All fields are required');
+        await dialog.accept();
+    });
+        await page.$('a[href="/register"]');
+        expect(page.url()).toBe('http://localhost:3000/register');
+});
+
 test('Add book with correct data', async ({ page }) => {
     await page.goto('http://localhost:3000/login'); 
 
@@ -74,7 +87,7 @@ test('Add book with correct data', async ({ page }) => {
     expect(page.url()).toBe('http://localhost:3000/catalog');
 })
 
-test('Add book with empty field', async ({ page }) => {
+test('Add book with empty title field', async ({ page }) => {
     await page.goto('http://localhost:3000/login'); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
@@ -99,4 +112,20 @@ test('Add book with empty field', async ({ page }) => {
     await page.$('a[href="/create"]');
     
     expect(page.url()).toBe('http://localhost:3000/create');
+});
+
+test('Login and verify all books are displayed', async ({ page }) => {
+    await page.goto('http://localhost:3000/login'); 
+
+    await page.fill('input[name="email"]', 'peter@abv.bg');
+    await page.fill('input[name="password"]', '123456');
+    await Promise.all([
+        page.click('input[type="submit"]'),
+        page.waitForURL('http://localhost:3000/catalog')
+    ])
+
+    await page.waitForSelector('.dashboard');
+    const bookElements = await page.$$('.other-books-list li');
+    expect(bookElements.length).toBeGreaterThan(0);
+
 });
