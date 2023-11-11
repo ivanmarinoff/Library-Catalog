@@ -147,7 +147,7 @@ test('Login and navigate to Details page', async ({ page }) => {
     expect(detailsPageTitle).toBe('Test Book');
 });
 
-test.only('Verify redirection of Logout link after user is logged in', async ({ page }) => {
+test('Verify redirection of Logout link after user is logged in', async ({ page }) => {
     await page.goto('http://localhost:3000/login'); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
