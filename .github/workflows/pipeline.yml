@@ -27,10 +27,7 @@ jobs:
         cache: 'npm'
     - name: Build the app
       run: npm install
-      
-    - name: Install the npx
-      run: npm install -g npx
-   
+         
     - name: Test the app
       run: npx playwright test
       
