@@ -1,5 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const pageUrl = process.env.APP_URL || 'http://localhost:8000';
+const loginUrl = process.env.APP_URL || 'http://localhost:8000/login';
 
 test('Verify "All Books" is visible', async ({ page }) => {
     // Increase the timeout if needed
@@ -25,7 +26,7 @@ test('Verrifi Register button is visible', async ({ page }) => {
     expect(isRegisterButtonVisible).toBe(true);})
 
 test('Verrifi "All Books" link is visible after user login', async ({ page }) => {
-    await page.goto('http://localhost:8000/login', { waitUntil: 'domcontentloaded' }); 
+    await page.goto(loginUrl, { waitUntil: 'domcontentloaded' }); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
     await page.fill('input[name="password"]', '123456');
@@ -35,7 +36,7 @@ test('Verrifi "All Books" link is visible after user login', async ({ page }) =>
     expect(isAllBookLinkVisible).toBe(true);})
 
 test('Login with valid credentials', async ({ page }) => {
-    await page.goto('http://localhost:8000/login', { waitUntil: 'domcontentloaded' }); 
+    await page.goto(loginUrl, { waitUntil: 'domcontentloaded' }); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
     await page.fill('input[name="password"]', '123456');
@@ -44,7 +45,7 @@ test('Login with valid credentials', async ({ page }) => {
     expect(page.url()).toBe('http://localhost:8000/catalog');})
 
 test('Login with empty credentials', async ({ page }) => {
-    await page.goto('http://localhost:8000/login', { waitUntil: 'domcontentloaded' }); 
+    await page.goto(loginUrl, { waitUntil: 'domcontentloaded' }); 
     await page.click('input[type="submit"]');
 
     page.on('dialog', async dialog => {
@@ -53,7 +54,7 @@ test('Login with empty credentials', async ({ page }) => {
         await dialog.accept();
     });
         await page.$('a[href="/login"]');
-        expect(page.url()).toBe('http://localhost:8000/login');
+        expect(page.url()).toBe(loginUrl);
 });
 
 test('Register with empty credentials', async ({ page }) => {
@@ -70,7 +71,7 @@ test('Register with empty credentials', async ({ page }) => {
 });
 
 test('Add book with correct data', async ({ page }) => {
-    await page.goto('http://localhost:8000/login', { waitUntil: 'domcontentloaded' }); 
+    await page.goto(loginUrl, { waitUntil: 'domcontentloaded' }); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
     await page.fill('input[name="password"]', '123456');
@@ -82,7 +83,7 @@ test('Add book with correct data', async ({ page }) => {
     await page.waitForSelector('#create-form');
     await page.fill("#title", 'Test Book');
     await page.fill("#description", 'This is a test book Description');
-    await page.fill("#image", 'http://example.com/book-image.jpg');
+    await page.fill("#image", 'https://i0.wp.com/onecore.net/wp-content/uploads/2014/11/template.jpg');
     await page.selectOption('#type', 'Fiction');
     await page.click('#create-form input[type="submit"]');
     await page.waitForURL('http://localhost:8000/catalog');
@@ -90,7 +91,7 @@ test('Add book with correct data', async ({ page }) => {
 })
 
 test('Add book with empty title field', async ({ page }) => {
-    await page.goto('http://localhost:8000/login', { waitUntil: 'domcontentloaded' }); 
+    await page.goto(loginUrl, { waitUntil: 'domcontentloaded' }); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
     await page.fill('input[name="password"]', '123456');
@@ -102,7 +103,7 @@ test('Add book with empty title field', async ({ page }) => {
     await page.waitForSelector('#create-form');
     // await page.fill("#title", 'Test Book');
     await page.fill("#description", 'This is a test book Description');
-    await page.fill("#image", 'http://example.com/book-image.jpg');
+    await page.fill("#image", 'https://i0.wp.com/onecore.net/wp-content/uploads/2014/11/template.jpg');
     await page.selectOption('#type', 'Fiction');
 
     page.on('dialog', async dialog => {
@@ -117,7 +118,7 @@ test('Add book with empty title field', async ({ page }) => {
 });
 
 test('Login and verify all books are displayed', async ({ page }) => {
-    await page.goto('http://localhost:8000/login', { waitUntil: 'domcontentloaded' }); 
+    await page.goto(loginUrl, { waitUntil: 'domcontentloaded' }); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
     await page.fill('input[name="password"]', '123456');
@@ -133,7 +134,7 @@ test('Login and verify all books are displayed', async ({ page }) => {
 });
 
 test('Login and navigate to Details page', async ({ page }) => {
-    await page.goto('http://localhost:8000/login', { waitUntil: 'domcontentloaded' }); 
+    await page.goto(loginUrl, { waitUntil: 'domcontentloaded' }); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
     await page.fill('input[name="password"]', '123456');
@@ -150,7 +151,7 @@ test('Login and navigate to Details page', async ({ page }) => {
 });
 
 test('Verify redirection of Logout link after user is logged in', async ({ page }) => {
-    await page.goto('http://localhost:8000/login', { waitUntil: 'domcontentloaded' }); 
+    await page.goto(loginUrl, { waitUntil: 'domcontentloaded' }); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
     await page.fill('input[name="password"]', '123456');
@@ -158,6 +159,7 @@ test('Verify redirection of Logout link after user is logged in', async ({ page 
 
     const logoutLink = await page.$('a[href="javascript:void(0)"]');
     await logoutLink.click();
+    await page.reload();
 
     const redirectedUrl = page.url();
     expect(redirectedUrl).toBe('http://localhost:8000/');
