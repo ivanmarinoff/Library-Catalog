@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const pageUrl = 'http://localhost:8000';
+const pageUrl = process.env.APP_URL || 'http://localhost:8000';
 
 test('Verify "All Books" is visible', async ({ page }) => {
     // Increase the timeout if needed
