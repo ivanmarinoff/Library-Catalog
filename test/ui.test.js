@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const pageUrl = 'http://localhost:3000';
+const pageUrl = 'http://localhost:8000';
 
 test('Verrifi "All Books" is visible', async ({ page }) => {
     await page.goto(pageUrl);
@@ -23,7 +23,7 @@ test('Verrifi Register button is visible', async ({ page }) => {
     expect(isRegisterButtonVisible).toBe(true);})
 
 test('Verrifi "All Books" link is visible after user login', async ({ page }) => {
-    await page.goto('http://localhost:3000/login'); 
+    await page.goto('http://localhost:8000/login'); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
     await page.fill('input[name="password"]', '123456');
@@ -33,16 +33,16 @@ test('Verrifi "All Books" link is visible after user login', async ({ page }) =>
     expect(isAllBookLinkVisible).toBe(true);})
 
 test('Login with valid credentials', async ({ page }) => {
-    await page.goto('http://localhost:3000/login'); 
+    await page.goto('http://localhost:8000/login'); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
     await page.fill('input[name="password"]', '123456');
     await page.click('input[type="submit"]');
     await page.$('a[href="/catalog"]');
-    expect(page.url()).toBe('http://localhost:3000/catalog');})
+    expect(page.url()).toBe('http://localhost:8000/catalog');})
 
 test('Login with empty credentials', async ({ page }) => {
-    await page.goto('http://localhost:3000/login'); 
+    await page.goto('http://localhost:8000/login'); 
     await page.click('input[type="submit"]');
 
     page.on('dialog', async dialog => {
@@ -51,11 +51,11 @@ test('Login with empty credentials', async ({ page }) => {
         await dialog.accept();
     });
         await page.$('a[href="/login"]');
-        expect(page.url()).toBe('http://localhost:3000/login');
+        expect(page.url()).toBe('http://localhost:8000/login');
 });
 
 test('Register with empty credentials', async ({ page }) => {
-    await page.goto('http://localhost:3000/register'); 
+    await page.goto('http://localhost:8000/register'); 
     await page.click('input[type="submit"]');
 
     page.on('dialog', async dialog => {
@@ -64,17 +64,17 @@ test('Register with empty credentials', async ({ page }) => {
         await dialog.accept();
     });
         await page.$('a[href="/register"]');
-        expect(page.url()).toBe('http://localhost:3000/register');
+        expect(page.url()).toBe('http://localhost:8000/register');
 });
 
 test('Add book with correct data', async ({ page }) => {
-    await page.goto('http://localhost:3000/login'); 
+    await page.goto('http://localhost:8000/login'); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
     await page.fill('input[name="password"]', '123456');
     await Promise.all([
         page.click('input[type="submit"]'),
-        page.waitForURL('http://localhost:3000/catalog')
+        page.waitForURL('http://localhost:8000/catalog')
     ])
     await page.click('a[href="/create"]');
     await page.waitForSelector('#create-form');
@@ -83,18 +83,18 @@ test('Add book with correct data', async ({ page }) => {
     await page.fill("#image", 'http://example.com/book-image.jpg');
     await page.selectOption('#type', 'Fiction');
     await page.click('#create-form input[type="submit"]');
-    await page.waitForURL('http://localhost:3000/catalog');
-    expect(page.url()).toBe('http://localhost:3000/catalog');
+    await page.waitForURL('http://localhost:8000/catalog');
+    expect(page.url()).toBe('http://localhost:8000/catalog');
 })
 
 test('Add book with empty title field', async ({ page }) => {
-    await page.goto('http://localhost:3000/login'); 
+    await page.goto('http://localhost:8000/login'); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
     await page.fill('input[name="password"]', '123456');
     await Promise.all([
         page.click('input[type="submit"]'),
-        page.waitForURL('http://localhost:3000/catalog')
+        page.waitForURL('http://localhost:8000/catalog')
     ])
     await page.click('a[href="/create"]');
     await page.waitForSelector('#create-form');
@@ -111,17 +111,17 @@ test('Add book with empty title field', async ({ page }) => {
 
     await page.$('a[href="/create"]');
     
-    expect(page.url()).toBe('http://localhost:3000/create');
+    expect(page.url()).toBe('http://localhost:8000/create');
 });
 
 test('Login and verify all books are displayed', async ({ page }) => {
-    await page.goto('http://localhost:3000/login'); 
+    await page.goto('http://localhost:8000/login'); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
     await page.fill('input[name="password"]', '123456');
     await Promise.all([
         page.click('input[type="submit"]'),
-        page.waitForURL('http://localhost:3000/catalog')
+        page.waitForURL('http://localhost:8000/catalog')
     ])
 
     await page.waitForSelector('.dashboard');
@@ -131,13 +131,13 @@ test('Login and verify all books are displayed', async ({ page }) => {
 });
 
 test('Login and navigate to Details page', async ({ page }) => {
-    await page.goto('http://localhost:3000/login'); 
+    await page.goto('http://localhost:8000/login'); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
     await page.fill('input[name="password"]', '123456');
     await Promise.all([
         page.click('input[type="submit"]'),
-        page.waitForURL('http://localhost:3000/catalog')
+        page.waitForURL('http://localhost:8000/catalog')
     ])
     await page.click('a[href="/catalog"]');
     await page.waitForSelector('.otherBooks');
@@ -148,7 +148,7 @@ test('Login and navigate to Details page', async ({ page }) => {
 });
 
 test('Verify redirection of Logout link after user is logged in', async ({ page }) => {
-    await page.goto('http://localhost:3000/login'); 
+    await page.goto('http://localhost:8000/login'); 
 
     await page.fill('input[name="email"]', 'peter@abv.bg');
     await page.fill('input[name="password"]', '123456');
@@ -158,6 +158,6 @@ test('Verify redirection of Logout link after user is logged in', async ({ page 
     await logoutLink.click();
 
     const redirectedUrl = page.url();
-    expect(redirectedUrl).toBe('http://localhost:3000/catalog');
+    expect(redirectedUrl).toBe('http://localhost:8000/');
 
 })
