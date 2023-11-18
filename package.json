@@ -5,7 +5,6 @@
     "main": "index.html",
     "scripts": {
         "test": "mocha test",
-        "test-ui": "npx playwright test",
         "start": "http-server -a localhost -p 8000 -P http://localhost:8000? -c-1"
     },
     "author": "",
