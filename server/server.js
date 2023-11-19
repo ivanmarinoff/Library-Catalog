@@ -1407,7 +1407,6 @@
     var softuniPracticeServer = {
 
     };
-
     return softuniPracticeServer;
 
 })));
