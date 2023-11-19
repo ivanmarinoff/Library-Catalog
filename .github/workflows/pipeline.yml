@@ -33,7 +33,7 @@ jobs:
       run: npx playwright install
 
     - name: Build the server
-      run: npm run build
+      run: node server.js
 
     - name: Run the server
       run: npm start
