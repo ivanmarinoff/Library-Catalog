@@ -18,7 +18,7 @@ jobs:
       matrix:
         node-version: [ 18.x ]
       fail-fast: false
-        
+
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
@@ -39,6 +39,7 @@ jobs:
       run: |
         node server.js
         echo "The server is running."
+        timeout-minutes: 5
 
     - name: Run the server
       run: npm start
