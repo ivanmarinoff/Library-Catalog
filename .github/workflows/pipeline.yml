@@ -15,8 +15,10 @@ jobs:
     timeout-minutes: 20
 
     strategy:
+      matrix:
+        node-version: [ 18.x ]
       fail-fast: false
-      
+        
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
@@ -30,7 +32,7 @@ jobs:
     - name: Build the app
       run: npm install
       
-    - name: Buil npx
+    - name: Build npx
       run: npx playwright install
 
     - name: Build the server
