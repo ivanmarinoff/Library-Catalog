@@ -25,14 +25,18 @@ jobs:
       with:
         node-version: 18.x
         cache: 'npm'
+
     - name: Build the app
       run: npm install
-
-    - name: Run the server
-      run: npm start
       
     - name: Buil npx
       run: npx playwright install
+
+    - name: Build the server
+      run: npm run build
+
+    - name: Run the server
+      run: npm start
          
     - name: Test the app
       run: npx playwright test
