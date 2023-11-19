@@ -34,8 +34,9 @@ jobs:
       run: npx playwright install
 
     - name: Build the server
-      run: node server.js
-      timeout-minutes: 5
+      run: |
+        node server.js
+        echo "The server is running."
 
     - name: Run the server
       run: npm start
