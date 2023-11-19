@@ -2,13 +2,13 @@ import re
 from playwright.sync_api import Page, expect
 
 def test_has_title(page: Page):
-    page.goto("http://localhost:8000/")
+    page.goto("http://localhost:3000/")
 
     # Expect a title "to contain" a substring.
     expect(page).get_by_text(re.compile("All Books Login Register Welcome"))
 
 def test_login_button(page: Page):
-    page.goto("http://localhost:8000/")
+    page.goto("http://localhost:3000/")
 
     # Click the get started link.
     page.get_by_role("link", name="Login").click()
@@ -20,7 +20,7 @@ def test_login_button(page: Page):
 
 
 
-    # page.goto("http://localhost:8000/")
+    # page.goto("http://localhost:3000/")
     # page.get_by_text("All Books Login Register Welcome, {email} My Books Add Book Logout").click()
     # page.get_by_role("link", name="Login").click()
     # page.get_by_role("link", name="Register").click()
