@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const path = require('path')
 
-app.use('/static', express.static(path.join(__dirname, 'static')))
+app.use('/styles', express.static(path.join(__dirname, 'styles')))
 
 app.set('view engine', 'pug');
 app.use(require('body-parser')
