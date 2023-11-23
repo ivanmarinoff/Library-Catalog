@@ -4,7 +4,8 @@
     "description": "Online Book Library Single Page Application",
     "main": "index.html",
     "scripts": {
-        "test": "mocha tests"
+        "test": "mocha tests",
+        "start": "node index.js"
     },
     "author": "",
     "license": "ISC",
@@ -15,6 +16,7 @@
     "devDependencies": {
         "playwright-chromium": "1.9.2",
         "mocha": "8.3.2",
-        "chai": "4.3.4"
+        "chai": "4.3.4",
+        "express": "4.17.1"
     }
 }
